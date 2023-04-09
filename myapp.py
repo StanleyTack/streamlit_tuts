@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-import streamlit_js_eval as sje
+import streamlit_js_eval.sje as sje
+import time
 
 # Initialize an empty DataFrame to store GPS coordinates.
 coords_df = pd.DataFrame(
@@ -9,23 +10,24 @@ coords_df = pd.DataFrame(
 
 # Streamlit app layout and functionality.
 st.title("Poop Map")
+location = sje.get_geolocation()
 
 if st.button("Poop!"):
-    location = sje.get_geolocation()
-    if location is None:
-        st.write("no location found")
-    elif location is not None:
-        new_location = {
-            "lat": location["coords"]["latitude"],
-            "lon": location["coords"]["longitude"],
-        }
-        coords_df.append(new_location, ignore_index=True)
-        st.write(
-            "lat:",
-            location["coords"]["latitude"],
-            ", lon: ",
-            location["coords"]["longitude"],
-        )
+    while location is None:
+        st.write("waiting for location")
+        time.sleep(100)
+
+    new_location = {
+        "lat": location["coords"]["latitude"],
+        "lon": location["coords"]["longitude"],
+    }
+    coords_df.append(new_location, ignore_index=True)
+    st.write(
+        "lat:",
+        location["coords"]["latitude"],
+        ", lon: ",
+        location["coords"]["longitude"],
+    )
 
 # Display the interactive map and update the map center.
 map_component = st.map(
