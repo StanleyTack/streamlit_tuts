@@ -7,19 +7,19 @@ import random
 
 # Streamlit app layout and functionality.
 st.title("Poop Map")
-location = sje.get_geolocation()
 
-# Initialize a DataFrame to store GPS coordinates.
-if "clicks" not in st.session_state:
-    st.session_state.clicks = 0
 
+# Initialize a session state DataFrame to store GPS coordinates.
 if "df" not in st.session_state:
     st.session_state.df = pd.DataFrame(
         {"lat": [37.3861, 37.4419, 37.3688], "lon": [-122.0841, -122.1430, -122.0363]}
     )
 
+
 if st.button("Poop!"):
-    st.session_state.clicks += 1
+    location = sje.get_geolocation()
+    while location is None:
+        time.sleep(50)
     # lat = 37.3861 + random.uniform(-0.025, 0.025)
     # lon = -122.0841 + random.uniform(-0.025, 0.025)
     # new_location = pd.DataFrame({"lat": [lat], "lon": [lon]})
