@@ -18,8 +18,7 @@ if "df" not in st.session_state:
     )
 
 if st.button("Poop!"):
-    while location is None:
-        time.sleep(50)
+    location = sje.get_geolocation()
     # lat = 37.3861 + random.uniform(-0.025, 0.025)
     # lon = -122.0841 + random.uniform(-0.025, 0.025)
     # new_location = pd.DataFrame({"lat": [lat], "lon": [lon]})
