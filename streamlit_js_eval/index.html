@@ -41,29 +41,63 @@
             });
         };
 
-        // https://stackoverflow.com/questions/11042212/ff-13-ie-9-json-stringify-geolocation-object
+        //https://stackoverflow.com/questions/11042212/ff-13-ie-9-json-stringify-geolocation-object
+        // function getLocation() {
+        //     return new Promise((resolve, reject) => {
+        //         if (navigator.geolocation) {
+        //             navigator.geolocation.getCurrentPosition((position) =>
+        //                 resolve({
+        //                     coords: {
+        //                         accuracy: position.coords.accuracy,
+        //                         altitude: position.coords.altitude,
+        //                         altitudeAccuracy: position.coords.altitudeAccuracy,
+        //                         heading: position.coords.heading,
+        //                         latitude: position.coords.latitude,
+        //                         longitude: position.coords.longitude,
+        //                         speed: position.coords.speed,
+        //                     },
+        //                     timestamp: position.timestamp,
+        //                 }),
+        //             );
+        //         } else {
+        //             reject(new Error('Browser does not support geolocation!'));
+        //         }
+        //     });
+        // }
+
         function getLocation() {
             return new Promise((resolve, reject) => {
                 if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition((position) =>
-                        resolve({
-                            coords: {
-                                accuracy: position.coords.accuracy,
-                                altitude: position.coords.altitude,
-                                altitudeAccuracy: position.coords.altitudeAccuracy,
-                                heading: position.coords.heading,
-                                latitude: position.coords.latitude,
-                                longitude: position.coords.longitude,
-                                speed: position.coords.speed,
-                            },
-                            timestamp: position.timestamp,
-                        }),
+                    const options = {
+                        maximumAge: 3000, // Accept cached position if not older than 5 seconds (5000 ms)
+                        timeout: 10000, // Timeout after 10 seconds if no position is retrieved
+                    };
+
+                    navigator.geolocation.getCurrentPosition(
+                        (position) =>
+                            resolve({
+                                coords: {
+                                    accuracy: position.coords.accuracy,
+                                    altitude: position.coords.altitude,
+                                    altitudeAccuracy: position.coords.altitudeAccuracy,
+                                    heading: position.coords.heading,
+                                    latitude: position.coords.latitude,
+                                    longitude: position.coords.longitude,
+                                    speed: position.coords.speed,
+                                },
+                                timestamp: position.timestamp,
+                            }),
+                        (error) => {
+                            reject(error);
+                        },
+                        options,
                     );
                 } else {
                     reject(new Error('Browser does not support geolocation!'));
                 }
             });
         }
+
 
         // ----------------------------------------------------
         // Just copy/paste these functions as-is:
