@@ -15,7 +15,6 @@ if "df" not in st.session_state:
         {"lat": [37.3861, 37.4419, 37.3688], "lon": [-122.0841, -122.1430, -122.0363]}
     )
 
-
 if st.button("Poop!"):
     location = sje.get_geolocation()
     while location is None:
