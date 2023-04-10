@@ -7,7 +7,6 @@ import random
 
 # Streamlit app layout and functionality.
 st.title("Poop Map")
-location = sje.get_geolocation()
 
 
 # Initialize a session state DataFrame to store GPS coordinates.
